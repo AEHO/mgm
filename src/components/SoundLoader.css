@@ -1,0 +1,9 @@
+.SoundLoader .fileInp {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.SoundLoader .fileSelect {
+
+}

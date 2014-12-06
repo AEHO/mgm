@@ -1,0 +1,29 @@
+{
+  "name": "hackathon_ime",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cirocosta/hackathon_ime.git"
+  },
+  "author": "Ciro S. Costa <ciro9758@gmail.com> (http://www.cirocosta.com/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cirocosta/hackathon_ime/issues"
+  },
+  "homepage": "https://github.com/cirocosta/hackathon_ime",
+  "dependencies": {
+    "css-loader": "^0.9.0",
+    "es6-promise": "^2.0.0",
+    "jsx-loader": "^0.12.2",
+    "object-assign": "^2.0.0",
+    "react": "^0.12.1",
+    "recordrtc": "^5.0.4",
+    "style-loader": "^0.8.2",
+    "webpack": "^1.4.13"
+  }
+}
