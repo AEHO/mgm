@@ -57,8 +57,6 @@ var VideoAddModal = React.createClass({
 
   handleFinishRecording () {
     recorder.stopRecording((url) => {
-      console.log(url);
-
       this.setState({
         screen: 'replay-stream',
         file: url

@@ -9,6 +9,13 @@ var AppActions = {
     });
   },
 
+  sortVideos (videos) {
+    AppDispatcher.handleViewAction({
+      actionType: CONSTANTS.Pad.SORT_VIDEOS,
+      videos: videos
+    });
+  },
+
 };
 
 module.exports = AppActions;

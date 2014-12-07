@@ -1,5 +1,7 @@
 var React = require('react');
 
+var {PadStore} = require('../../stores');
+var {PadActions, AppActions} = require('../../actions');
 var cx = require('../../utils/cx.js');
 
 require('./VideoTabs.scss');
@@ -14,9 +16,11 @@ var SortableItem = React.createClass({
     data.splice(to, 0, data.splice(from,1)[0]);
     this.props.sort(data, to);
   },
-  
+
   sortEnd: function() {
     this.props.sort(this.props.data.items, undefined);
+    PadActions.sortVideos(
+      this.props.data.items.map((item) => {return {src: item._store.props.src}}));
   },
 
   sortStart: function(e) {
@@ -55,7 +59,7 @@ var SortableItem = React.createClass({
 
   render () {
     return (
-      <li 
+      <li
         onDragEnd={this.sortEnd}
         onDragOver={this.dragOver}
         onDragStart={this.sortStart}
@@ -100,7 +104,7 @@ var Video = React.createClass({
 
   componentDidUpdate (prevProps) {
     if(prevProps.dataId != this.props.dataId){
-      this.getDOMNode().load(); 
+      this.getDOMNode().load();
     }
   },
 
@@ -111,7 +115,7 @@ var Video = React.createClass({
     });
 
     return (
-      <video data-id={this.props.dataId} onClick={this.handleClick} className={classNames}> 
+      <video data-id={this.props.dataId} onClick={this.handleClick} className={classNames}>
         <source src={this.props.src} />
       </video>
     );
@@ -119,20 +123,34 @@ var Video = React.createClass({
 });
 
 var VideoTabs = React.createClass({
-  propTypes: {
-    videos: React.PropTypes.array
-  },
-
   getInitialState () {
-    var items = this.props.videos.map((video, i) => {
+    var items = PadStore.getPadState().videos.map((video, i) => {
       return(
         <Video dataId={i} src={video.src} />
       );
     });
 
     return {
-      data: { items }
+      data: {items}
     }
+  },
+
+  componentDidMount: function () {
+    PadStore.addChangeListener(this.handleStoreChange);
+  },
+
+  componentWillUnmount: function () {
+    PadStore.removeChangeListener(this.handleStoreChange);
+  },
+
+  handleStoreChange () {
+    var items = PadStore.getPadState().videos.map((video, i) => {
+      return(
+        <Video dataId={i} src={video.src} />
+      );
+    });
+
+    this.setState({data: {items}});
   },
 
   sort: function(items, dragging) {
@@ -140,6 +158,10 @@ var VideoTabs = React.createClass({
     data.items = items;
     data.dragging = dragging;
     this.setState({data: data});
+  },
+
+  handleClickAssetAdd () {
+    AppActions.openModal();
   },
 
   render() {
@@ -156,7 +178,7 @@ var VideoTabs = React.createClass({
       <ul className="video-tabs">
         {videoTabs}
         <li draggable={false} className="video-tab">
-          <img className="big-plus" src="./assets/plus.svg"/>
+          <img onClick={this.handleClickAssetAdd} className="big-plus" src="./assets/plus.svg"/>
         </li>
       </ul>
     );

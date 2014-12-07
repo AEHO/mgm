@@ -1,5 +1,6 @@
 var keyMirror = require('../utils/keyMirror');
 
 module.exports = keyMirror('PAD', {
-  ADD_VIDEO: false
+  ADD_VIDEO: false,
+  SORT_VIDEOS: false
 });
