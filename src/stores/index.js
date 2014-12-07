@@ -1,3 +1,5 @@
 module.exports = {
-  SoundStore: require('./SoundStore')
+  SoundStore: require('./SoundStore'),
+  AppStore: require('./AppStore'),
+  PadStore: require('./PadStore')
 };

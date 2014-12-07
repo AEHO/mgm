@@ -2,11 +2,13 @@ var CONSTANTS = require('../constants');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 
 var AppActions = {
-  toggleMaximization () {
+  addVideo (file) {
     AppDispatcher.handleViewAction({
-      actionType: CONSTANTS.App.TOGGLE_MAXIMIZATION
+      actionType: CONSTANTS.Pad.ADD_VIDEO,
+      file: file
     });
   },
+
 };
 
 module.exports = AppActions;

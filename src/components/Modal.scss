@@ -1,0 +1,23 @@
+.Modal {
+	position: absolute;
+	width: 75%;
+	height: 75%;
+	background: #A3A873;
+	left: 12.5%;
+	top: 12.5%;
+
+	padding: 16px;
+
+	header {
+		button {
+			position: absolute;
+			right: 5%;
+			top: 5%;	
+		}
+
+		p {
+			text-align: center;
+		}
+	}
+
+}

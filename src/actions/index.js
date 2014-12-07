@@ -1,3 +1,4 @@
 module.exports = {
-  SoundActions: require('./SoundActions')
+  AppActions: require('./AppActions'),
+  PadActions: require('./PadActions')
 };

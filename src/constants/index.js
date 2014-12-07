@@ -1,3 +1,5 @@
 module.exports = {
-  General: require('./GeneralConstants')
+  General: require('./GeneralConstants'),
+  App: require('./AppConstants'),
+  Pad: require('./PadConstants')
 };
