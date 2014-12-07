@@ -12,6 +12,12 @@ var AppActions = {
     AppDispatcher.handleViewAction({
       actionType: CONSTANTS.App.OPEN_MODAL
     });
+  },
+
+  enterMobilePlayMode () {
+    AppDispatcher.handleViewAction({
+      actionType: CONSTANTS.App.MOBILE_PLAY_MODE
+    });
   }
 
 };

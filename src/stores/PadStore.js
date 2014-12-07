@@ -10,8 +10,37 @@ var _padState = {
   ],
   recording: false,
   playing: false,
-  afId: null
+  afId: null,
+  peer: null
 };
+
+var hostSyncVideos = function() {
+  _padState.peer.on('open', function() {
+    var conn = _padState.peer.connect('mobile');
+    console.log("REMOTE connecting to LOCAL", conn)
+
+    conn.on('open', function(){
+      console.log("connect to REMOTE opened", conn);
+      conn.send(JSON.stringify( _padState.videos));
+    });
+  }); 
+}
+
+if(window.location.hash === '#mobile'){
+  _padState.peer = new Peer('mobile', {key: 'annbtz013tm7k3xr'});
+  _padState.peer.on('connection', function(conn) {
+    console.log("LOCAL connection open", conn)      
+    conn.on('data', function(data){        
+      videos = JSON.parse(data);  
+      _padState.videos = videos;
+        PadStore.emitChange();
+      console.log("LOCAL got message", data);
+    });
+  });
+}else{
+  _padState.peer = new Peer('host', {key: 'annbtz013tm7k3xr', debug:true}); 
+  hostSyncVideos();
+}
 
 var PadStore = assign({
   getPadState: () => _padState,
@@ -34,6 +63,7 @@ var PadStore = assign({
           src: action.file, currentTime: 0, playing: false, clicks: []
         });
 
+        hostSyncVideos();
         PadStore.emitChange();
 	      break;
 
@@ -45,6 +75,7 @@ var PadStore = assign({
         var obj = _padState.videos.filter((v) => v.src !== action.src);
         _padState.videos = obj;
 
+        hostSyncVideos();
         PadStore.emitChange();
 	      break;
 

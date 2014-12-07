@@ -8,9 +8,11 @@ var _appState = {
     showing: false,
     file: false,
     replay: false,
-    recording: false
-  }
+    recording: false,
+  },
+  playMode: false
 };
+
 
 var AppStore = assign({
   getAppState: () => _appState,
@@ -32,6 +34,11 @@ var AppStore = assign({
 
         _appState.modal.replay = true;
         _appState.modal.file = action.file;
+        AppStore.emitChange();
+        break;
+
+      case CONSTANTS.App.MOBILE_PLAY_MODE:
+        _appState.playMode = true;
         AppStore.emitChange();
         break;
 
