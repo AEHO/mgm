@@ -35,11 +35,13 @@ var DropArea = React.createClass({
                e.dataTransfer.files &&
                e.dataTransfer.files[0];
 
+
     this.props.onFileDrop && this.props.onFileDrop(file);
     this.setState({status: NOT_ACTIVE});
   },
 
   handleDragLeave (e) {
+
     this.setState({status: NOT_ACTIVE});
   },
 

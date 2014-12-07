@@ -4,6 +4,10 @@ var CONSTANTS = require('../constants');
 var assign = require('object-assign');
 
 var _padState = {
+  videos: [
+    {src: "./assets/mov_bbb.mp4"},
+    {src: "./assets/dizzy.webm"}
+  ]
 };
 
 var PadStore = assign({
@@ -12,16 +16,19 @@ var PadStore = assign({
   dispatcherIndex: AppDispatcher.register((payload) => {
     var action = payload.action;
 
+    console.log(action);
+
     switch (action.actionType) {
       case CONSTANTS.Pad.ADD_VIDEO:
-        console.log(action.file);
-        if (action.file.name)
-          _padState[(Math.random()*1000000|0) + action.file.name] = action.file;
-        else
-          _padState[(Math.random()*1000000|0)] = action.file;
+        _padState.videos.push({src: action.file});
 
         PadStore.emitChange();
 	      break;
+
+      case CONSTANTS.Pad.SORT_VIDEOS:
+        _padState.videos = action.videos;
+        console.log(_padState.videos);
+        break;
     }
 
     return true;
