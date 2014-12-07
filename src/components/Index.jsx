@@ -17,13 +17,21 @@ var Index = React.createClass({
 		var modal = this.state.modal.showing ?
 			<VideoAddModal /> : null;
 
-		return (
+    var main = window.location.hash === 'mobile' ?
       <main className="Main">
-				<h1 className="main-title">Vixer</h1>
+        <h1 className="main-title">Vixer</h1>
         <h2 className="subtitle">Adicione vídeos, clique em gravar e comece a mixar!</h2>
         <VideoTabs />
-				{modal}
-			</main>
+        {modal}
+      </main> :
+      <main>
+        <h1 className="main-title">Vixer</h1>
+        <button>upload</button>
+        <button>play</button>
+      </main>
+
+		return (
+      main
 		);
 	}
 });
