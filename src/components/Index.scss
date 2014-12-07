@@ -1,0 +1,24 @@
+@import './colors';
+@import './fonts';
+
+html{
+  background-color: $background-color;
+}
+
+body{
+  text-align: center;
+}
+
+.main-title{
+  color: $lighter-blue;
+  font: italic 900 130px/90px "Playfair Display",Georgia,serif;
+  padding: 30px;
+  margin: 0px;
+  border-top: 4px double $pastel-blue;
+  border-bottom: 4px double $pastel-blue;
+}
+
+.subtitle{
+  font: 400 18px/36px "Playfair Display SC",Georgia,serif; 
+  color: $lighter-blue;
+}

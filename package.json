@@ -25,5 +25,8 @@
     "recordrtc": "^5.0.4",
     "style-loader": "^0.8.2",
     "webpack": "^1.4.13"
+  },
+  "devDependencies": {
+    "sass-loader": "^0.3.1"
   }
 }
