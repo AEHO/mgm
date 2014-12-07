@@ -16,8 +16,6 @@ var PadStore = assign({
   dispatcherIndex: AppDispatcher.register((payload) => {
     var action = payload.action;
 
-    console.log(action);
-
     switch (action.actionType) {
       case CONSTANTS.Pad.ADD_VIDEO:
         _padState.videos.push({src: action.file});
@@ -27,8 +25,15 @@ var PadStore = assign({
 
       case CONSTANTS.Pad.SORT_VIDEOS:
         _padState.videos = action.videos;
-        console.log(_padState.videos);
         break;
+
+      case CONSTANTS.Pad.REMOVE_VIDEO:
+        var obj = _padState.videos.filter((v) => v.src !== action.src);
+        _padState.videos = obj;
+
+        PadStore.emitChange();
+	      break;
+
     }
 
     return true;

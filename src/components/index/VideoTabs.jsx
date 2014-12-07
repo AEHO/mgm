@@ -20,15 +20,12 @@ var SortableItem = React.createClass({
   },
 
   sortEnd: function() {
-    if(!!this.props.onEndDrag)
-      this.props.onEndDrag.call();
-    this.props.sort(this.props.data.items, undefined);
-    PadActions.sortVideos(
-      this.props.data.items.map((item) => {return {src: item._store.props.src}}));
+    if(this.props.onEndDrag)
+      this.props.onEndDrag.call(this, this.props.data.dragging);
   },
 
   sortStart: function(e) {
-    if(!!this.props.onStartDrag)
+    if(this.props.onStartDrag)
       this.props.onStartDrag.call(e);
     this.dragged = e.currentTarget.dataset ?
       e.currentTarget.dataset.id :
@@ -126,7 +123,8 @@ var Video = React.createClass({
     });
 
     return (
-      <video data-id={this.props.dataId} onClick={this.handleClick} className={classNames}>
+      <video data-id={this.props.dataId}
+          onClick={this.handleClick} className={classNames}>
         <source src={this.props.src} />
       </video>
     );
@@ -146,10 +144,6 @@ var VideoTabs = React.createClass({
       showPlus: true,
       dragOverTrash: false
     }
-  },
-  
-  componentDidMount () {
-    
   },
 
   componentDidMount: function () {
@@ -184,17 +178,27 @@ var VideoTabs = React.createClass({
   },
 
   showTrash () {
-    console.log("trash");
     this.setState({
       showPlus: false
     });
   },
 
-  handleDragOver (isOver) {
+  handleDragOver (isOver, e) {
+    if(isOver == false && e.nativeEvent.buttons == 0) return; 
     this.setState({dragOverTrash: isOver}); 
   },
 
-  handleEndDrag (e) {
+  handleEndDrag (videoId) {
+    if(this.state.dragOverTrash){
+      PadActions.removeVideo(
+        this.state.data.items[videoId]._store.props.src);
+    }else{
+      PadActions.sortVideos(
+        this.state.data.items.map(
+          (item) => {return {src: item._store.props.src}}));
+    }
+
+    this.setState({dragOverTrash: false}); 
     this.showPlus();
   },
 
@@ -228,6 +232,7 @@ var VideoTabs = React.createClass({
       "big-plus": true,
       "drag-over": this.state.dragOverTrash
     });
+
 
     return (
       <ul className="video-tabs">

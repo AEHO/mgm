@@ -16,6 +16,13 @@ var AppActions = {
     });
   },
 
+  removeVideo (src) {
+    AppDispatcher.handleViewAction({
+      actionType: CONSTANTS.Pad.REMOVE_VIDEO,
+      src: src
+    });
+  }
+
 };
 
 module.exports = AppActions;
