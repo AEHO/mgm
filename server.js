@@ -3,17 +3,19 @@ var multer = require('multer');
 var bodyParser = require('body-parser');
 var app = express();
 var server = require('http').Server(app);
-var io = require('socket.io')(server);
+// var io = require('socket.io')(server);
 var fs = require('fs');
 var logger = require('morgan');
 
-server.listen(8080);
+server.listen(8080, '0.0.0.0', function () {
+  console.log('hadsiuhdsa');
+});
 
 app.use(logger('dev'));
 app.use(express.static(__dirname));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(multer());
+app.use(multer({dest: './assets'}));
 
 function _upload(file, cb) {
   var fileRootName = file.name.split('.').shift();
@@ -45,9 +47,13 @@ app.post('/upload', function (req, res) {
   });
 });
 
-io.on('connection', function (socket) {
-  socket.emit('news', {hello: 'world'});
-  socket.on('evt', function (data) {
-    console.log(data);
-  });
+app.post('/upload/mobile', function (req, res) {
+  res.send('./assets/' + req.files.contents.name);
 });
+
+// io.on('connection', function (socket) {
+//   socket.emit('news', {hello: 'world'});
+//   socket.on('evt', function (data) {
+//     console.log(data);
+//   });
+// });

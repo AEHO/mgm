@@ -12,6 +12,12 @@ body{
   margin: 0;
 }
 
+.fileInp {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
 .Main {
   height: 100%;
 }
