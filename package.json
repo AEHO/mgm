@@ -23,6 +23,7 @@
     "object-assign": "^2.0.0",
     "react": "^0.12.1",
     "recordrtc": "^5.0.4",
+    "sass-loader": "^0.3.1",
     "style-loader": "^0.8.2",
     "webpack": "^1.4.13"
   }

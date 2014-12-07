@@ -51,7 +51,7 @@ var VideoRecoder = React.createClass({
       <div>
         <h2>Video Recorder</h2>
         {videoRec}
-        <video ref="videoElem" autoPlay controls></video>
+        <video width="200" ref="videoElem" autoPlay controls></video>
         {acceptOrNot}
       </div>
     );
