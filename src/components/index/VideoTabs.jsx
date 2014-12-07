@@ -6,7 +6,9 @@ require('./VideoTabs.scss');
 
 var SortableItem = React.createClass({
   propTypes: {
-    dataId: React.PropTypes.number.isRequired
+    dataId: React.PropTypes.number.isRequired,
+    onStartDrag: React.PropTypes.func,
+    onEndDrag: React.PropTypes.func
   },
 
   update: function(to, from) {
@@ -16,10 +18,14 @@ var SortableItem = React.createClass({
   },
   
   sortEnd: function() {
+    if(!!this.props.onEndDrag)
+      this.props.onEndDrag.call();
     this.props.sort(this.props.data.items, undefined);
   },
 
   sortStart: function(e) {
+    if(!!this.props.onStartDrag)
+      this.props.onStartDrag.call(e);
     this.dragged = e.currentTarget.dataset ?
       e.currentTarget.dataset.id :
       e.currentTarget.getAttribute('data-id');
@@ -29,6 +35,11 @@ var SortableItem = React.createClass({
     } catch (ex) {
       e.dataTransfer.setData('text', '');
     }
+  },
+
+  placement: function(x,y,over) {
+    var width = over.offsetWidth / 2;
+    return x > width;
   },
 
   move: function(over,append) {
@@ -131,8 +142,14 @@ var VideoTabs = React.createClass({
     });
 
     return {
-      data: { items }
+      data: { items },
+      showPlus: true,
+      dragOverTrash: false
     }
+  },
+  
+  componentDidMount () {
+    
   },
 
   sort: function(items, dragging) {
@@ -142,21 +159,65 @@ var VideoTabs = React.createClass({
     this.setState({data: data});
   },
 
+  showPlus () {
+    this.setState({
+      showPlus: true
+    });
+  },
+
+  showTrash () {
+    console.log("trash");
+    this.setState({
+      showPlus: false
+    });
+  },
+
+  handleDragOver (isOver) {
+    this.setState({dragOverTrash: isOver}); 
+  },
+
+  handleEndDrag (e) {
+
+    this.showPlus()
+  },
+
   render() {
     var videoTabs = this.state.data.items.map((item, i) => {
       return <SortableItem
               key={i}
               dataId={i}
+              onStartDrag={this.showTrash}
+              onEndDrag={this.handleEndDrag}
               item={item}
               sort={this.sort}
               data={this.state.data} />
+    });
+
+    var plusStyle = {
+      display: this.state.showPlus ? "none" : "block",
+      height: "50%"
+    };
+
+    var trashStyle = {
+      display: this.state.showPlus ? "block" : "none",
+      height: "100%"
+    };
+
+    var trashClass = cx({
+      "big-plus": true,
+      "drag-over": this.state.dragOverTrash
     });
 
     return (
       <ul className="video-tabs">
         {videoTabs}
         <li draggable={false} className="video-tab">
-          <img className="big-plus" src="./assets/plus.svg"/>
+          <img className="big-plus" style={trashStyle} src="./assets/plus.svg"/>
+          <img onDragEnter={this.handleDragOver.bind(null, true)}
+            onDragLeave={this.handleDragOver.bind(null, false)}
+            className={trashClass}
+            style={plusStyle}
+            src="./assets/trash.svg"/>
         </li>
       </ul>
     );
