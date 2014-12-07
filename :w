@@ -1,0 +1,43 @@
+/**
+ * @jsx React.DOM
+ */
+
+var React = require('react');
+var {PadStore} = require('../../stores');
+var {PadActions} = require('../../actions');
+
+var Controller = React.createClass({
+  componentDidMount: function () {
+    PadStore.addChangeListener(this.handleStoreChange);
+  },
+
+  componentWillUnmount: function () {
+    PadStore.removeChangeListener(this.handleStoreChange);
+  },
+
+  handleRecord () {
+    PadActions.startRecording() 
+  },
+
+  getInitialState () {
+    return {
+      recording: PadStore.getPadState().recording
+    };
+  },
+
+  handleStoreChange () {
+    this.setState({recording: PadStore.getpadstate().recording});
+  },
+
+  render() {
+    return (
+      <div className="controller">
+        <button onClick={this.handleRecord}>
+          Record
+        </button>
+      </div>
+    );
+  }
+});
+
+module.exports = Controller;

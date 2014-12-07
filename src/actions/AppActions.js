@@ -13,6 +13,7 @@ var AppActions = {
       actionType: CONSTANTS.App.OPEN_MODAL
     });
   }
+
 };
 
 module.exports = AppActions;

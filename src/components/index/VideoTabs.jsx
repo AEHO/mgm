@@ -2,6 +2,8 @@ var React = require('react');
 
 var {PadStore} = require('../../stores');
 var {PadActions, AppActions} = require('../../actions');
+
+var Controller = require('./Controller.jsx');
 var cx = require('../../utils/cx.js');
 
 require('./VideoTabs.scss');
@@ -94,37 +96,44 @@ var Video = React.createClass({
   componentDidMount () {
     var _this = this;
     this.getDOMNode().onended = function(e) {
-      _this.setState({ playing: false });
-      e.target.currentTime = 0;
+      PadActions.stopVideo(_this.props.dataId);
     }
   },
 
   handleClick (e) {
-    e.target.currentTime = 0;
-    e.target.play();
-    this.setState({ playing: true });
+    var _this = this;
+    PadActions.addVideoClick(this.props.dataId, Date.now());
+    PadActions.stopVideo(this.props.dataId);
+    setTimeout(() => {
+      PadActions.playVideo(_this.props.dataId);
+    }, 0);
   },
 
   shouldComponentUpdate (nextProps, nextState) {
     return (nextProps.dataId != this.props.dataId |
-            nextState.playing != this.state.playing);
+            nextProps.playing != this.props.playing |
+            nextProps.currentTime != this.props.currentTime);
   },
 
   componentDidUpdate (prevProps) {
     if(prevProps.dataId != this.props.dataId){
       this.getDOMNode().load();
     }
+    if(prevProps.playing != this.props.playing){
+      this.getDOMNode().currentTime = this.props.currentTime;
+      if(this.props.playing)   
+        this.getDOMNode().play();
+    }
   },
 
   render () {
     var classNames = cx({
       'video': true,
-      'playing': this.state.playing
+      'playing': this.props.playing
     });
 
     return (
-      <video data-id={this.props.dataId}
-          onClick={this.handleClick} className={classNames}>
+      <video onClick={this.handleClick} className={classNames}>
         <source src={this.props.src} />
       </video>
     );
@@ -133,16 +142,19 @@ var Video = React.createClass({
 
 var VideoTabs = React.createClass({
   getInitialState () {
-    var items = PadStore.getPadState().videos.map((video, i) => {
+    var padState = PadStore.getPadState();
+    var items = padState.videos.map((video, i) => {
       return(
-        <Video dataId={i} src={video.src} />
+        <Video dataId={i} currentTime={video.currentTime} playing={video.playing} src={video.src} />
       );
     });
 
     return {
-      data: { items },
+      data: { items, dragging: null },
       showPlus: true,
-      dragOverTrash: false
+      dragOverTrash: false,
+      recording: padState.recording,
+      playing: padState.playing
     }
   },
 
@@ -155,13 +167,18 @@ var VideoTabs = React.createClass({
   },
 
   handleStoreChange () {
+    var padState = PadStore.getPadState();
     var items = PadStore.getPadState().videos.map((video, i) => {
       return(
-        <Video dataId={i} src={video.src} />
+        <Video dataId={i} currentTime={video.currentTime} playing={video.playing} src={video.src} />
       );
     });
 
-    this.setState({data: {items}});
+    this.setState({
+      data: {items},
+      recording: padState.recording,
+      playing: padState.playing
+    });
   },
 
   sort: function(items, dragging) {
@@ -195,7 +212,14 @@ var VideoTabs = React.createClass({
     }else{
       PadActions.sortVideos(
         this.state.data.items.map(
-          (item) => {return {src: item._store.props.src}}));
+          (item) => {
+        return {
+          src: item._store.props.src,
+          currentTime: 0,
+          playing: false,
+          clicks: []
+        };
+      }));
     }
 
     this.setState({dragOverTrash: false}); 
@@ -235,18 +259,24 @@ var VideoTabs = React.createClass({
 
 
     return (
-      <ul className="video-tabs">
-        {videoTabs}
-        <li draggable={false} className="video-tab">
-          <img onClick={this.handleClickAssetAdd}
-           className="big-plus" style={trashStyle} src="./assets/plus.svg"/>
-          <img onDragEnter={this.handleDragOver.bind(null, true)}
-            onDragLeave={this.handleDragOver.bind(null, false)}
-            className={trashClass}
-            style={plusStyle}
-            src="./assets/trash.svg"/>
-        </li>
-      </ul>
+      <div className="container">
+        <ul className="video-tabs">
+          {videoTabs}
+          <li draggable={false} className="video-tab">
+            <img onClick={this.handleClickAssetAdd}
+             className="big-plus"
+             style={trashStyle}
+             src="./assets/plus.svg"/>
+            <img onDragEnter={this.handleDragOver.bind(null, true)}
+              onDragLeave={this.handleDragOver.bind(null, false)}
+              className={trashClass}
+              style={plusStyle}
+              src="./assets/trash.svg"/>
+          </li>
+        </ul>
+        <Controller recording={this.state.recording}
+          playing={this.state.playing} />
+      </div>
     );
   }
 

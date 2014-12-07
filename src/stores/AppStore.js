@@ -21,9 +21,6 @@ var AppStore = assign({
     switch (action.actionType) {
       case CONSTANTS.App.CLOSE_MODAL:
       	_appState.modal.showing = false;
-        _appState.modal.replay = false;
-        _appState.file = false;
-        _appState.recording = false;
 
         AppStore.emitChange();
 	      break;
@@ -33,11 +30,11 @@ var AppStore = assign({
         AppStore.emitChange();
         break;
 
-      case CONSTANTS.App.START_REPLAY_MODAL:
         _appState.modal.replay = true;
         _appState.modal.file = action.file;
         AppStore.emitChange();
         break;
+
     }
 
     return true;

@@ -15,12 +15,11 @@ var Index = React.createClass({
 
 	render () {
 		var modal = this.state.modal.showing ?
-			<VideoAddModal /> :
-			null;
+			<VideoAddModal /> : null;
 
 		return (
 			<main>
-				<h1 className="main-title">LOBN</h1>
+				<h1 className="main-title">Vixer</h1>
         <h2 className="subtitle">Adicione vídeos, clique em gravar e comece a mixar!</h2>
         <VideoTabs />
 				{modal}
