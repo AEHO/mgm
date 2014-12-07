@@ -18,7 +18,7 @@ var Index = React.createClass({
 			<VideoAddModal /> : null;
 
 		return (
-			<main>
+      <main className="Main">
 				<h1 className="main-title">Vixer</h1>
         <h2 className="subtitle">Adicione vídeos, clique em gravar e comece a mixar!</h2>
         <VideoTabs />

@@ -3,10 +3,17 @@
 
 html{
   background-color: $background-color;
+  height: 100%;
 }
 
 body{
   text-align: center;
+  height: 100%;
+  margin: 0;
+}
+
+.Main {
+  height: 100%;
 }
 
 .main-title{
@@ -19,6 +26,6 @@ body{
 }
 
 .subtitle{
-  font: 400 18px/36px "Playfair Display SC",Georgia,serif; 
+  font: 400 18px/36px "Playfair Display SC",Georgia,serif;
   color: $lighter-blue;
 }
