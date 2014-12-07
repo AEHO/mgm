@@ -1,23 +1,35 @@
 .Modal {
-	position: absolute;
-	width: 75%;
-	height: 75%;
-	background: #A3A873;
-	left: 12.5%;
-	top: 12.5%;
 
-	padding: 16px;
+  .BlackBackground {
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    background: rgba(0, 0, 0, 0.49);
+    left: 0;
+  }
 
-	header {
-		button {
-			position: absolute;
-			right: 5%;
-			top: 5%;	
-		}
+  .Content {
+    z-index: 2;
+    position: absolute;
+    width: 75%;
+    height: 75%;
+    background: #A3A873;
+    left: 12.5%;
+    top: 12.5%;
+    padding: 16px;
 
-		p {
-			text-align: center;
-		}
-	}
+    header {
+      button {
+        position: absolute;
+        right: 5%;
+        top: 5%;
+      }
 
+      p {
+        text-align: center;
+      }
+    }
+  }
 }

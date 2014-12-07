@@ -33,7 +33,6 @@ var PadStore = assign({
 
         PadStore.emitChange();
 	      break;
-
     }
 
     return true;

@@ -4,9 +4,12 @@
 
 var DropArea = require('./DropArea.jsx');
 var {AppActions, PadActions} = require('../actions');
+var superagent = require('superagent');
 var VideoRecorder = require('./VideoRecorder.jsx');
 var Modal = require('./Modal.jsx');
 var React = require('react');
+
+var _recorder = null;
 
 var VideoAddModal = React.createClass({
   getInitialState () {
@@ -23,7 +26,17 @@ var VideoAddModal = React.createClass({
 	},
 
 	handleAccept () {
-    PadActions.addVideo(this.state.file);
+    var fd = new FormData();
+    fd.append('name', this.state.videoData.name);
+    fd.append('contents', this.state.videoData.contents);
+
+    var request = new XMLHttpRequest();
+    request.open("POST", '/upload', true);
+    request.onload = (oEvent) => {
+      PadActions.addVideo(request.responseText);
+    };
+
+    request.send(fd);
 	},
 
 	handleRefuse () {
@@ -46,8 +59,8 @@ var VideoAddModal = React.createClass({
   },
 
   handleStartRecording () {
-    recorder = RecordRTC(this.state.file);
-    recorder.startRecording();
+    _recorder = RecordRTC(this.state.file);
+    _recorder.startRecording();
 
     this.setState({
       screen: 'recording',
@@ -56,13 +69,22 @@ var VideoAddModal = React.createClass({
   },
 
   handleFinishRecording () {
-    recorder.stopRecording((url) => {
-      this.setState({
-        screen: 'replay-stream',
-        file: url
-      });
+    _recorder.stopRecording((url) => {
+      var blob = _recorder.getBlob();
 
-      this.refs.videoElem.getDOMNode().load();
+      _recorder.getDataURL((dataUrl) => {
+        this.setState({
+          screen: 'replay-stream',
+          file: url,
+          videoData: {
+            name: (Math.random()*100|0) + '.' + blob.type.split('/')[1],
+            type: blob.type,
+            contents: dataUrl
+          }
+        }, () => {
+          this.refs.videoElem.getDOMNode().load();
+        });
+      });
     });
   },
 
@@ -81,7 +103,7 @@ var VideoAddModal = React.createClass({
     } else if (this.state.screen === 'replay-stream') {
       video =
         <div>
-          <video ref="videoElem" autoPlay controls width="300">
+          <video ref="videoElem" autoPlay width="300">
             <source src={this.state.file} />
           </video>
           <button onClick={this.handleRefuse}>Recusar</button>
@@ -106,8 +128,8 @@ var VideoAddModal = React.createClass({
     }
 
 		return (
-			<Modal title="Adicionar um Video">
-				<button onClick={this.handleRecordVideoBtn}>Gravar Video</button>
+			<Modal className="Modal" title="Adicionar um Video">
+				<button class="btnRecord" onClick={this.handleRecordVideoBtn}>Gravar Video</button>
 				<DropArea onFileDrop={this.handleFileDrop} />
 				{video}
 			</Modal>

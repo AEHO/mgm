@@ -19,7 +19,7 @@ var Index = React.createClass({
 			null;
 
 		return (
-			<main>
+			<main className="Main">
 				<h1 className="main-title">LOBN</h1>
         <h2 className="subtitle">Adicione vídeos, clique em gravar e comece a mixar!</h2>
         <VideoTabs />
