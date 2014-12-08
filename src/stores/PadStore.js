@@ -6,7 +6,7 @@ var assign = require('object-assign');
 var _padState = {
   videos: [
     {src: "./assets/mov_bbb.mp4", currentTime: 0, playing: false, clicks: []},
-    {src: "./assets/dizzy.webm", currentTime: 0, playing: false, clicks: []}
+    {src: "./assets/cool.webm", currentTime: 0, playing: false, clicks: []}
   ],
   recording: false,
   playing: false,
@@ -23,22 +23,22 @@ var hostSyncVideos = function() {
       console.log("connect to REMOTE opened", conn);
       conn.send(JSON.stringify( _padState.videos));
     });
-  }); 
+  });
 }
 
 if(window.location.hash === '#mobile'){
   _padState.peer = new Peer('mobile', {key: 'annbtz013tm7k3xr'});
   _padState.peer.on('connection', function(conn) {
-    console.log("LOCAL connection open", conn)      
-    conn.on('data', function(data){        
-      videos = JSON.parse(data);  
+    console.log("LOCAL connection open", conn)
+    conn.on('data', function(data){
+      videos = JSON.parse(data);
       _padState.videos = videos;
         PadStore.emitChange();
       console.log("LOCAL got message", data);
     });
   });
 }else{
-  _padState.peer = new Peer('host', {key: 'annbtz013tm7k3xr', debug:true}); 
+  _padState.peer = new Peer('host', {key: 'annbtz013tm7k3xr', debug:true});
   hostSyncVideos();
 }
 

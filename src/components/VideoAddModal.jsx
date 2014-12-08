@@ -26,17 +26,18 @@ var VideoAddModal = React.createClass({
 	},
 
 	handleAccept () {
-    var fd = new FormData();
-    fd.append('name', this.state.videoData.name);
-    fd.append('contents', this.state.videoData.contents);
+    PadActions.addVideo('./assets/' + this.state.file.name)
+    // var fd = new FormData();
+    // fd.append('name', this.state.videoData.name);
+    // fd.append('contents', this.state.videoData.contents);
 
-    var request = new XMLHttpRequest();
-    request.open("POST", '/upload', true);
-    request.onload = (oEvent) => {
-      PadActions.addVideo(request.responseText);
-    };
+    // var request = new XMLHttpRequest();
+    // request.open("POST", '/upload', true);
+    // request.onload = (oEvent) => {
+    //   PadActions.addVideo(request.responseText);
+    // };
 
-    request.send(fd);
+    // request.send(fd);
 	},
 
 	handleRefuse () {
