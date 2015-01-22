@@ -3,9 +3,12 @@
  */
 
 var VQ = require('../../utils/VQ');
+var updateWithKey = require('../../utils/updateWithKey');
 var React = require('react');
 var DropArea = require('../DropArea.jsx');
+var VideoItem = require('../VideoItem.jsx');
 var _slice = Array.prototype.slice;
+
 var _vq;
 
 var DndPage = React.createClass({
@@ -15,19 +18,25 @@ var DndPage = React.createClass({
     };
   },
 
-  handleFileDrop (file) {
-    var files = _slice.call(this.state.files);
+  handleFilesDrop (fileList) {
+    var files = this.state.files.slice();
 
-    files.push(file);
-    _vq.add(file);
+    for (var i = 0; i < fileList.length; i++) {
+      var file = fileList[i];
+
+      files.push(file);
+      _vq.add(file);
+    }
 
     this.setState({
       files: files
     });
   },
 
-  handleVQChange (data) {
-    console.log(data);
+  handleVQChange (file) {
+    this.setState({
+      files: updateWithKey(this.state.files, file, 'lastModified')
+    });
   },
 
   componentDidMount () {
@@ -43,7 +52,7 @@ var DndPage = React.createClass({
     };
 
     var files = this.state.files.map((file, i) => {
-      return <li key={i}>{file.name}</li>
+      return <li key={i}><VideoItem file={file}/></li>
     });
 
     return (
@@ -54,7 +63,7 @@ var DndPage = React.createClass({
           <video style={cssHidden} ref="videoElem"></video>
         </div>
 
-        <DropArea onFileDrop={this.handleFileDrop} />
+        <DropArea onFilesDrop={this.handleFilesDrop} />
 
         <div>
           <p>Assets</p>

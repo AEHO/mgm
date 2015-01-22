@@ -12,7 +12,7 @@ var DropArea = React.createClass({
     className: React.PropTypes.string,
     children: React.PropTypes.node,
 
-    onFileDrop: React.PropTypes.func.isRequired,
+    onFilesDrop: React.PropTypes.func.isRequired,
   },
 
   getDefaultProps () {
@@ -31,12 +31,9 @@ var DropArea = React.createClass({
   handleDrop (e) {
     e.preventDefault();
 
-    var file = e.dataTransfer &&
-               e.dataTransfer.files &&
-               e.dataTransfer.files[0];
+    var files = e.dataTransfer && e.dataTransfer.files;
 
-
-    this.props.onFileDrop && this.props.onFileDrop(file);
+    this.props.onFilesDrop && this.props.onFilesDrop(files);
     this.setState({status: NOT_ACTIVE});
   },
 

@@ -32,11 +32,16 @@ var isIn = (valueFun, a, b) => {
 /**
  * VideoQueue (VQ) constructor function.
  *
- * Encapsulates a queue that will process a
- * video file and then generate a thumb (one
- * file per time)
- * @param {DOMNode} video video element
- * @param {DOMNode} canvas canvas element
+ * Encapsulates a queue that will process video
+ * files and generate thumbs (one file per
+ * time).
+ *
+ * VQ inherits from EventEmitter so that
+ * processed thumbs are informed based on an
+ * event.
+ *
+ * @param {HTMLElement} video video element
+ * @param {HTMLElement} canvas canvas element
  */
 function VQ (video, canvas) {
   if (!(video && canvas))
@@ -44,6 +49,7 @@ function VQ (video, canvas) {
 
   this.video = video;
   this.canvas = canvas;
+  this._status = '';
   this._queue = [];
   this._pluck = plucker('name');
 }
@@ -52,17 +58,16 @@ inherits(VQ, EventEmitter);
 
 assign(VQ.prototype, {
   _ON_VIDEO_PROCESSED: '_ON_VIDEO_PROCESSED',
+  _STATUS_FREE: '_STATUS_FREE',
+  _STATUS_BUSY: '_STATUS_BUSY',
 
   add (file) {
-    // if (!isIn(this._pluck, file, this._queue))
-    //   return;
-
     this._queue.push(file);
     this._process();
   },
 
-  _emitChange (data) {
-    this.emit(this._ON_VIDEO_PROCESSED, data);
+  _emitChange (file) {
+    this.emit(this._ON_VIDEO_PROCESSED, file);
   },
 
   addChangeListener (cb) {
@@ -70,8 +75,14 @@ assign(VQ.prototype, {
   },
 
   _process () {
-    this.video.src = window.URL.createObjectURL(this._queue.shift());
+    if (this._status === this._STATUS_BUSY)
+      return;
 
+    this._status = this._STATUS_BUSY;
+
+    var file = this._queue.shift();
+
+    this.video.src = window.URL.createObjectURL(file);
     this.video.onloadeddata = () => {
       this.video.onseeked = () => {
         this.canvas.width = this.video.videoWidth;
@@ -82,7 +93,14 @@ assign(VQ.prototype, {
           .drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
 
         img = this.canvas.toDataURL();
-        this._emitChange(img);
+
+        file.thumb = img;
+        this._emitChange(file);
+
+        this._status = this._STATUS_FREE;
+
+        if (this._queue.length)
+          this._process();
       };
 
       this.video.currentTime = this.video.duration/2|0;
