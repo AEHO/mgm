@@ -19,8 +19,6 @@ var VideoItem = React.createClass({
       <img src={this.props.file.thumb} /> :
       <p>No Thumb yet</p>;
 
-    console.log(thumb);
-
     return (
       <div>
         <div>

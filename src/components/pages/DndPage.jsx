@@ -6,6 +6,7 @@ var VQ = require('../../utils/VQ');
 var updateWithKey = require('../../utils/updateWithKey');
 var React = require('react');
 var DropArea = require('../DropArea.jsx');
+var FilesInput = require('../FilesInput.jsx');
 var VideoItem = require('../VideoItem.jsx');
 var _slice = Array.prototype.slice;
 
@@ -18,7 +19,7 @@ var DndPage = React.createClass({
     };
   },
 
-  handleFilesDrop (fileList) {
+  handleFilesSelect (fileList) {
     var files = this.state.files.slice();
 
     for (var i = 0; i < fileList.length; i++) {
@@ -63,10 +64,12 @@ var DndPage = React.createClass({
           <video style={cssHidden} ref="videoElem"></video>
         </div>
 
-        <DropArea onFilesDrop={this.handleFilesDrop} />
+        <div>
+          <DropArea onFilesDrop={this.handleFilesSelect} />
+          <FilesInput onFilesSelect={this.handleFilesSelect} />
+        </div>
 
         <div>
-          <p>Assets</p>
           <ul>
             {files}
           </ul>
