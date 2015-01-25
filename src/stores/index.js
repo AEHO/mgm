@@ -1,3 +1,4 @@
 module.exports = {
-  AssetsStore: require('./AssetsStore')
+  AssetsStore: require('./AssetsStore'),
+  AppStore: require('./AppStore'),
 };

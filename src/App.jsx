@@ -2,28 +2,34 @@
  * BaseLayout
  */
 
-var React = require('react');
-var AssetsBar = require('./components/AssetsBar.jsx');
-var {RouteHandler, Link} = require('react-router');
+require('./App.sass');
 
-var App = React.createClass({
-  getInitialState () {
-    return {
-      showAssets: false
-    }
-  },
+const React = require('react');
+const AssetsBar = require('./components/AssetsBar.jsx');
+const {AppActions} = require('./actions');
+const {storesGlueMixin} = require('./mixins');
+const {AppStore} = require('./stores');
+const {RouteHandler, Link} = require('react-router');
+
+const App = React.createClass({
+  mixins: [storesGlueMixin(AppStore)],
+
+  getStateFromStores: AppStore.getStoreState,
 
   handleAssetsClick () {
-    this.setState({
-      showAssets: !this.state.showAssets
-    });
+    if (this.state.showSidebar)
+      AppActions.hideSidebar();
+    else
+      AppActions.showSidebar();
   },
 
   render () {
-    var assets = this.state.showAssets ? <AssetsBar /> : null;
+    const klass = this.state.showSidebar ?
+      'App show-sidebar' :
+      'App';
 
     return (
-      <div>
+      <div className={klass}>
         <nav>
           <ul>
             <li><Link to="app">Home</Link></li>
@@ -31,7 +37,7 @@ var App = React.createClass({
           </ul>
         </nav>
 
-        {assets}
+        <AssetsBar />
 
         <RouteHandler />
       </div>

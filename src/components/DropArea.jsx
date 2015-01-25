@@ -65,7 +65,7 @@ var DropArea = React.createClass({
            onClick={this.handleClick}>
         <input ref="fileInp" type="file"
                multiple onChange={this.handleFilesChange} />
-        <p>Drop an Audio or Video here</p>
+        <p>Drop an Audio/Video here</p>
         <p><em>or</em></p>
         <p>Click to select</p>
       </div>

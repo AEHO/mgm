@@ -1,3 +1,4 @@
 module.exports = {
-  AssetsActions: require('./AssetsActions')
+  AssetsActions: require('./AssetsActions'),
+  AppActions: require('./AppActions')
 };

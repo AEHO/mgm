@@ -10,7 +10,9 @@ module.exports = {
     loaders: [
       {
         test: /\.sass$/,
-        loader: 'style-loader!css-loader!sass-loader?indentedSyntax=sass'
+        loader: 'style-loader!css-loader!sass-loader' +
+                '?indentedSyntax=sass' +
+                '&includePaths[]=' + __dirname + '/src'
       },
       {
         test: /\.css$/,
@@ -23,3 +25,4 @@ module.exports = {
     ]
   }
 };
+
