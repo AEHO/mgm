@@ -40,12 +40,11 @@
   left: 0
 
   color: #757D75
-  box-shadow: 2px 0px 40px #606060;
-  box-sizing: border-box;
+  box-shadow: 2px 0px 40px #606060
+  box-sizing: border-box
   background: #ECF0F1
 
   text-align: center
-  padding: 10px;
   width: $sidebar-width
   height: 100%
 
@@ -56,4 +55,23 @@
   &.show
     transform: translateX(0)
 
+.AssetsBar .content .DropArea
+  margin: 10px
+
+.AssetsBar ul
+  box-sizing: border-box
+  padding: 0
+  margin: 0
+
+.AssetsBar li
+  list-style: none
+
+.AssetsBar .file-enter
+  opacity: 0.01
+  transform: translateY(20px)
+  transition: opacity .2s ease-in, transform .2s ease-in,
+
+.AssetsBar .file-enter-active
+  opacity: 1
+  transform: translateY(0px)
 

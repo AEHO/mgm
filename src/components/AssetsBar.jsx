@@ -6,7 +6,8 @@ require('./AssetsBar.sass');
 
 const assign = require('object-assign');
 const {AssetsActions, AppActions} = require('../actions');
-const React = require('react');
+const React = require('react/addons');
+const {CSSTransitionGroup} = React.addons;
 const VQ = require('../utils/VQ');
 const {AssetsStore, AppStore} = require('../stores');
 const updateWithKey = require('../utils/updateWithKey');
@@ -58,8 +59,8 @@ var AssetsBar = React.createClass({
       return <li key={i}><VideoItem file={file}/></li>
     });
 
-    const assets = files.length ?
-      <ul>{files}</ul> :
+    const emptyListText = files.length ?
+      null :
       <p>Empty assets list. Drop something above or select from your computer!</p>;
 
     const sidebarClass = this.state.showSidebar ?
@@ -74,7 +75,6 @@ var AssetsBar = React.createClass({
       'content show' :
       'content';
 
-
     return (
       <aside className={sidebarClass}>
         <div className={backgroundClass}
@@ -83,7 +83,8 @@ var AssetsBar = React.createClass({
           <h1>Assets</h1>
           <DropArea onFilesDrop={this.handleFilesSelect} />
 
-          {assets}
+          <ul><CSSTransitionGroup transitionName="file">{files}</CSSTransitionGroup></ul>
+          {emptyListText}
 
           <canvas ref="canvasElem"></canvas>
           <video ref="videoElem"></video>

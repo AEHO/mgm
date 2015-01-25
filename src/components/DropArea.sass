@@ -7,11 +7,12 @@ $color-bg: #FFF8D5
   text-align: center
   padding: 13px
   cursor: pointer
-  transition: background-color .1s ease
+  transition: background-color .1s ease, box-shadow .1s ease
+  box-shadow: inset 5px 1px 16px #707070
 
   &:hover
     background-color: lighten($color-bg, 5%)
-
+    box-shadow: -5px 1px 16px #707070
 
 .DropArea input
   visibility: hidden
