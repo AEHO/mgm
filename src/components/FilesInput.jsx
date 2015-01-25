@@ -2,6 +2,8 @@
  * FilesInput
  */
 
+// require('./FilesInput.sass');
+
 var React = require('react');
 var FilesInput = React.createClass({
   propTypes: {
@@ -18,9 +20,9 @@ var FilesInput = React.createClass({
 
   render () {
     return (
-      <div>
+      <div className="FilesInput">
         <input className="fileInp" ref="fileInp" type="file"
-                 accept="audio/*" multiple onChange={this.handleFilesChange} />
+               multiple onChange={this.handleFilesChange} />
         <button className="fileSelect" onClick={this.handleFilesSelectClick}>
             Select Files
           </button>

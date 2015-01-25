@@ -1,0 +1,19 @@
+$color-bg: #FFF8D5
+
+.DropArea
+  background-color: $color-bg
+  border: 3px dashed #B7B7B7
+  border-radius: 16px
+  text-align: center
+  padding: 13px
+  cursor: pointer
+  transition: background-color .1s ease
+
+  &:hover
+    background-color: lighten($color-bg, 5%)
+
+
+.DropArea input
+  visibility: hidden
+  width: 0
+  height: 0

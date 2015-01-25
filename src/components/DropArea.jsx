@@ -3,6 +3,8 @@
  * droppable content
  */
 
+require('./DropArea.sass');
+
 var ACTIVE = 'ACTIVE';
 var NOT_ACTIVE = 'NOT_ACTIVE';
 
@@ -10,15 +12,12 @@ var React = require('react');
 var DropArea = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
-    children: React.PropTypes.node,
-
     onFilesDrop: React.PropTypes.func.isRequired,
   },
 
   getDefaultProps () {
     return {
       className: 'DropArea',
-      children: <span>"Drop Here"</span>
     }
   },
 
@@ -49,13 +48,26 @@ var DropArea = React.createClass({
     this.setState({status: ACTIVE});
   },
 
+  handleClick () {
+    this.refs.fileInp.getDOMNode().click();
+  },
+
+  handleFilesChange (e) {
+    this.props.onFilesDrop && this.props.onFilesDrop(e.target.files);
+  },
+
   render () {
     return (
       <div className={this.props.className}
            onDragLeave={this.handleDragLeave}
            onDragOver={this.handleDragOver}
-           onDrop={this.handleDrop}>
-        {this.props.children}
+           onDrop={this.handleDrop}
+           onClick={this.handleClick}>
+        <input ref="fileInp" type="file"
+               multiple onChange={this.handleFilesChange} />
+        <p>Drop an Audio or Video here</p>
+        <p><em>or</em></p>
+        <p>Click to select</p>
       </div>
     );
   }

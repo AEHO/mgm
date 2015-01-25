@@ -9,9 +9,8 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.scss$/,
-        loader: 'style-loader!css-loader!sass-loader?includePaths[]='+
-          __dirname + '/src/components/'
+        test: /\.sass$/,
+        loader: 'style-loader!css-loader!sass-loader?indentedSyntax=sass'
       },
       {
         test: /\.css$/,
