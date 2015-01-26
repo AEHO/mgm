@@ -3,6 +3,7 @@
  */
 
 require('./App.sass');
+require('./Page.sass');
 
 const React = require('react');
 const AssetsBar = require('./components/AssetsBar.jsx');
@@ -15,6 +16,10 @@ const App = React.createClass({
   mixins: [storesGlueMixin(AppStore)],
 
   getStateFromStores: AppStore.getStoreState,
+
+  handleDragOver () {
+    !this.state.showSidebar && AppActions.showSidebar();
+  },
 
   handleAssetsClick () {
     if (this.state.showSidebar)
@@ -29,7 +34,7 @@ const App = React.createClass({
       'App';
 
     return (
-      <div className={klass}>
+      <div className={klass} onDragOver={this.handleDragOver}>
         <nav>
           <ul>
             <li><Link to="app">Home</Link></li>

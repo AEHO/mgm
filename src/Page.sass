@@ -1,0 +1,7 @@
+@import base
+
+.Page
+  transition: transform .3s ease
+
+  &.show-sidebar
+    transform: perspective(300px) translateX($sidebar-width) translateZ(-30px)
