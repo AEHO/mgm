@@ -1,5 +1,15 @@
 .VideoItem
   height: 80px
+  cursor: move
+  cursor: -webkit-grab
+  cursor: -moz-grab
+  transition: opacity .2s ease
+  opacity: 1
+
+  &.is-dragging
+    cursor: -webkit-grabbing
+    cursor: -moz-grabbing
+    opacity: .3
 
 .VideoItem .item
   height: 100%

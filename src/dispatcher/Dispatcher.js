@@ -1,4 +1,4 @@
-var assign = require('object-assign');
+const assign = require('object-assign');
 var _callbacks = [];
 var _promises = [];
 

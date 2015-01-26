@@ -2,6 +2,11 @@
 
 .Page
   transition: transform .3s ease
+  display: flex;
+  align-items: center;
+  height: 100%;
+  flex-direction: column;
+  padding: 0 3%;
 
   &.show-sidebar
     transform: perspective(300px) translateX($sidebar-width) translateZ(-30px)

@@ -4,7 +4,9 @@ const CONSTANTS = require('../constants');
 const assign = require('object-assign');
 
 var _state = {
-  showSidebar: false
+  showSidebar: false,
+  movingInternalAsset: false,
+  firstTimeNav: true
 };
 
 const AppStore = assign({
@@ -21,6 +23,21 @@ const AppStore = assign({
 
       case CONSTANTS.App.HIDE_SIDEBAR:
         _state.showSidebar = false;
+        AppStore.emitChange();
+        break;
+
+      case CONSTANTS.App.MOVING_INTERNAL_ASSET:
+        _state.movingInternalAsset = true;
+        AppStore.emitChange();
+        break;
+
+      case CONSTANTS.App.NOT_MOVING_INTERNAL_ASSET:
+        _state.movingInternalAsset = false;
+        AppStore.emitChange();
+        break;
+
+      case CONSTANTS.App.CONSUME_FIRST_TIME_NAV:
+        _state.firstTimeNav = false;
         AppStore.emitChange();
         break;
     }

@@ -54,6 +54,11 @@ var AssetsBar = React.createClass({
     AppActions.hideSidebar();
   },
 
+  handleDragOver () {
+    if (this.state.movingInternalAsset)
+      AppActions.hideSidebar();
+  },
+
   render () {
     const files = this.state.files.map((file, i) => {
       return <li key={i}><VideoItem file={file}/></li>
@@ -78,7 +83,8 @@ var AssetsBar = React.createClass({
     return (
       <aside className={sidebarClass}>
         <div className={backgroundClass}
-             onClick={this.handleBackgroundClick}></div>
+             onClick={this.handleBackgroundClick}
+             onDragOver={this.handleDragOver}></div>
         <main className={contentClass}>
           <h1>Assets</h1>
           <DropArea onFilesDrop={this.handleFilesSelect} />

@@ -3,9 +3,9 @@
  * from.
  */
 
-var EventEmitter = require('events').EventEmitter;
-var CONSTANTS = require('../constants/');
-var assign = require('object-assign');
+const EventEmitter = require('events').EventEmitter;
+const CONSTANTS = require('../constants/');
+const assign = require('object-assign');
 
 
 module.exports = assign({

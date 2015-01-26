@@ -6,7 +6,15 @@
 require('./VideoItem.sass');
 
 const React = require('react');
+const {AppActions} = require('../actions');
+const {AppStore} = require('../stores');
+const {storesGlueMixin} = require('../mixins');
+
 const VideoItem = React.createClass({
+  mixins: [storesGlueMixin(AppStore)],
+
+  getStateFromStores: AppStore.getStoreState,
+
   propTypes: {
     file: React.PropTypes.shape({
       name: React.PropTypes.string.isRequired,
@@ -14,6 +22,14 @@ const VideoItem = React.createClass({
       type: React.PropTypes.string.isRequired,
       thumb: React.PropTypes.string,
     }).isRequired
+  },
+
+  handleDragStart () {
+    AppActions.movingInternalAsset();
+  },
+
+  handleDragEnd () {
+    AppActions.notMovingInternalAsset();
   },
 
   render () {
@@ -31,8 +47,15 @@ const VideoItem = React.createClass({
       backgroundRepeat: 'no-repeat'
     };
 
+    const klass = this.state.movingInternalAsset ?
+      "VideoItem is-dragging" :
+      "VideoItem";
+
     return (
-      <div className="VideoItem">
+      <div className={klass}
+           draggable={true}
+           onDragStart={this.handleDragStart}
+           onDragEnd={this.handleDragEnd} >
         <div className="item" style={style}>
           <p>{this.props.file.name}</p>
         </div>

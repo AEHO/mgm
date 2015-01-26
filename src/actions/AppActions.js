@@ -12,7 +12,25 @@ const AppActions = {
     AppDispatcher.handleViewAction({
       actionType: CONSTANTS.App.HIDE_SIDEBAR,
     });
-  }
+  },
+
+  movingInternalAsset () {
+    AppDispatcher.handleViewAction({
+      actionType: CONSTANTS.App.MOVING_INTERNAL_ASSET,
+    });
+  },
+
+  notMovingInternalAsset () {
+    AppDispatcher.handleViewAction({
+      actionType: CONSTANTS.App.NOT_MOVING_INTERNAL_ASSET,
+    });
+  },
+
+  consumeFirstTimeNav () {
+    AppDispatcher.handleViewAction({
+      actionType: CONSTANTS.App.CONSUME_FIRST_TIME_NAV,
+    });
+  },
 };
 
 module.exports = AppActions;

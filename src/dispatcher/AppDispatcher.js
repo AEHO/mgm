@@ -1,8 +1,8 @@
-var GeneralConstants = require('../constants/GeneralConstants');
-var Dispatcher = require('./Dispatcher');
-var assign = require('object-assign');
+const GeneralConstants = require('../constants/GeneralConstants');
+const Dispatcher = require('./Dispatcher');
+const assign = require('object-assign');
 
-var AppDispatcher = assign({
+const AppDispatcher = assign({
   handleViewAction (action) {
     this.dispatch({
       source: GeneralConstants.VIEW_ACTION,

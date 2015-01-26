@@ -5,6 +5,7 @@
 require('./IndexPage.sass');
 
 const React = require('react');
+const {Link} = require('react-router');
 const {AppStore} = require('../../stores');
 const {storesGlueMixin} = require('../../mixins');
 
@@ -25,12 +26,16 @@ const IndexPage = React.createClass({
           <h2>A quick view of the demos</h2>
         </header>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>
+          There are mainly three demos to be shown.
+
+          The <strong>first</strong> aims to show <strong>how routing works</strong>
+          an what we are able to do with it.
+        </p>
+
+        <ul>
+          <li><Link to="webaudio">WebAudio demo</Link></li>
+        </ul>
 
       </article>
 		);
