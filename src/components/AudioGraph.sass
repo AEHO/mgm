@@ -5,7 +5,37 @@
 .AudioGraph .container,
   display: flex
 
+
 .AudioGraph .container section,
-  background: #F2F2F2
-  margin: 10px
+  display: flex;
   flex: 1
+  flex-direction: column;
+  align-items: center;
+
+  background: #F2F2F2
+  border-radius: 52px
+  box-shadow: 0 0 110px #E6E6E6
+  margin: 10px
+
+
+.AudioGraph .container section > div
+  display: flex
+
+
+.AudioGraph .AudioContext
+  height: 300px
+
+
+.AudioGraph .Item
+  width: 50px
+  height: 50px
+  opacity: 1
+  cursor: move
+  cursor: -webkit-grab
+  cursor: -moz-grab
+  transition: opacity .2s ease
+
+  &.is-dragging
+    cursor: -webkit-grabbing
+    cursor: -moz-grabbing
+    opacity: .3

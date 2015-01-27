@@ -7,6 +7,13 @@ const AssetsActions = {
       actionType: CONSTANTS.Assets.UPDATE_ASSETS,
       files: files
     });
+  },
+
+  addAsset (file) {
+    AppDispatcher.handleViewAction({
+      actionType: CONSTANTS.Assets.ADD_ASSET,
+      file: file
+    });
   }
 };
 

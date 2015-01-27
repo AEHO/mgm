@@ -64,9 +64,9 @@ var AssetsBar = React.createClass({
       return <li key={i}><VideoItem file={file}/></li>
     });
 
-    const emptyListText = files.length ?
+    const emptyListText = files.length > 1 ?
       null :
-      <p>Empty assets list. Drop something above or select from your computer!</p>;
+      <p>Add new items by dropping them above or clicking for a select dialog!</p>;
 
     const sidebarClass = this.state.showSidebar ?
       'AssetsBar show-sidebar' :

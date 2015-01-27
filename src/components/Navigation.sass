@@ -1,0 +1,49 @@
+@-webkit-keyframes leftRightAnim
+  0%
+    transform: translateX(-60px);
+
+  25%
+    transform: translateX(-40px);
+
+  75%
+    transform: translateX(-40px);
+
+  100%
+    transform: translateX(-60px)
+
+.Navigation
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.22), transparent)
+  height: 100%
+  width: 100px
+  display: flex
+  justify-content: center
+  align-items: center
+  transform: translateX(-60px)
+  transition: transform .3s ease
+
+  &.show
+    transform: translateX(0)
+
+
+.Navigation.first-time
+  -webkit-animation: leftRightAnim 4s cubic-bezier(.55,0,.1,1) normal infinite
+
+
+.Navigation img
+  width: 50px
+  opacity: .4
+  cursor: pointer
+  transition: opacity .2s ease
+
+  &:hover
+    opacity: 1
+
+
+.Navigation ul
+  margin: 0
+  list-style: none
+  padding: 0
+
+
+.Navigation li
+  margin: 30px 0
