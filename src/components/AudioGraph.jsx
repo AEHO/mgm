@@ -7,6 +7,7 @@ require('./AudioGraph.sass');
 const React = require('react');
 const assign = require('object-assign');
 const {AppActions} = require('../actions');
+const AudioContext = require('./AudioContext.jsx');
 
 const AudioGraph = React.createClass({
   getInitialState () {
@@ -85,13 +86,14 @@ const AudioGraph = React.createClass({
           </section>
         </aside>
 
-        <h1>Audio Graph</h1>
+        <h1>Audio Context</h1>
         <main className="AudioContext container" onDrop={this.handleInputDrop}>
           <section>
             <p>drop something here</p>
           </section>
         </main>
 
+        <AudioContext />
       </div>
     );
   }
