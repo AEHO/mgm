@@ -8,47 +8,55 @@ require('./AudioContext.sass');
 
 const clone = (obj) => JSON.parse(JSON.stringify(obj));
 const React = require('react');
+
+var TrueCoords = null;
+var GrabPoint = null;
+var SVGRoot = null;
+
 const AudioContext = React.createClass({
   getInitialState () {
     return {
       moving: false,
-      currentX: 0,
-      currentY: 0,
-      currentMatrix: [1, 0, 0, 1, 0, 0]
+      transX: 0,
+      transY: 0
     }
   },
 
+  componentDidMount () {
+    SVGRoot = this.getDOMNode();
+    TrueCoords = SVGRoot.createSVGPoint();
+    GrabPoint = SVGRoot.createSVGPoint();
+  },
+
   handleMouseDown (e) {
-    let state = clone(this.state);
+    let transMatrix = e.target.getCTM();
 
-    state.currentX = e.clientX;
-    state.currentY = e.clientY;
-    state.moving = true;
+    GrabPoint.x = TrueCoords.x - Number(transMatrix.e);
+    GrabPoint.y = TrueCoords.y - Number(transMatrix.f);
 
-    this.setState(state);
+    this.setState({
+      moving: true,
+      transX: this.state.transX,
+      transY: this.state.transY
+    });
+
   },
 
   handleMouseMove (e) {
+    let newScale = SVGRoot.currentScale;
+    let translation = SVGRoot.currentTranslate;
+
+    TrueCoords.x = (e.clientX - translation.x)/newScale;
+    TrueCoords.y = (e.clientY - translation.y)/newScale;
+
     if (!this.state.moving)
       return;
 
-    let state = clone(this.state);
-    let dx = e.clientX - state.currentX;
-    let dy = e.clientY - state.currentY;
-
-    state.currentMatrix[4] += dx;
-    state.currentMatrix[5] += dy;
-    state.currentX = e.clientX;
-    state.currentY = e.clientY;
-
-    this.setState(state);
-  },
-
-  handleMouseOut () {
-    let state = clone(this.state);
-
-    state.moving = false;
-    this.setState(state);
+    this.setState({
+      moving: true,
+      transX: TrueCoords.x - GrabPoint.x,
+      transY: TrueCoords.y - GrabPoint.y
+    });
   },
 
   handleMouseUp () {
@@ -59,19 +67,16 @@ const AudioContext = React.createClass({
   },
 
   render () {
-    let currentMatrix = this.state.currentMatrix.join(' ');
-
     return (
       <svg className="AudioContext" style={{background: '#e2e2e2'}}
+           onMouseMove={this.handleMouseMove}
+           onMouseUp={this.handleMouseUp}
            viewBox={"0 0 460 460"} preserveAspectRatio="xMidYMid">
         <circle onMouseDown={this.handleMouseDown}
-                onMouseUp={this.handleMouseUp}
-                onMouseMove={this.handleMouseMove}
-                onMouseOut={this.handleMouseOut}
                 className="draggable"
                 cx="100" cy="100"
                 r="40"
-                transform={`matrix(${currentMatrix})`}
+                transform={`translate(${this.state.transX},${this.state.transY})`}
                 fill="orange"
                 stroke="navy" strokeWidth="10" />
       </svg>
