@@ -20,7 +20,7 @@ const AudioGraph = React.createClass({
 
   handleDragStart (e) {
     e.stopPropagation();
-    e.dataTransfer.setData('text/plain', JSON.stringify({type: 'INPUT', id: 'MIC'}));
+    e.dataTransfer.setData('text/plain', JSON.stringify({kind: 'INPUT', id: 'MIC'}));
 
     AppActions.movingInternalAsset();
   },
