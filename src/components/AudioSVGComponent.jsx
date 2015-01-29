@@ -4,6 +4,11 @@
  * AudioSVGComponent ...
  */
 
+const findSvgRoot = (DOMNode) =>
+  DOMNode.parentElement.localName === 'svg' ?
+    DOMNode.parentElement :
+    findSvgRoot(DOMNode.parentElement);
+
 const clone = (obj) => JSON.parse(JSON.stringify(obj));
 const React = require('react');
 const AudioSVGComponent = React.createClass({
@@ -27,7 +32,7 @@ const AudioSVGComponent = React.createClass({
   _SVGRoot: null,
 
   componentDidMount () {
-    this._SVGRoot = this.getDOMNode().parentElement;
+    this._SVGRoot = findSvgRoot(this.getDOMNode());
     this._TrueCoords = this._SVGRoot.createSVGPoint();
     this._GrabPoint = this._SVGRoot.createSVGPoint();
   },
