@@ -20,6 +20,8 @@ const AudioGraph = React.createClass({
 
   handleDragStart (e) {
     e.stopPropagation();
+    e.dataTransfer.setData('text/plain', JSON.stringify({type: 'INPUT', id: 'MIC'}));
+
     AppActions.movingInternalAsset();
   },
 
@@ -87,13 +89,10 @@ const AudioGraph = React.createClass({
         </aside>
 
         <h1>Audio Context</h1>
-        <main className="AudioContext container" onDrop={this.handleInputDrop}>
-          <section>
-            <p>drop something here</p>
-          </section>
+        <main>
+          <AudioContext />
         </main>
 
-        <AudioContext />
       </div>
     );
   }
